@@ -10,10 +10,10 @@ if (isset($_POST['email'])) {
     // tampilkan semua data dari tbl user dimana email diambil dari
     // orang yg input email dan password di ambil dari orang yang input password
     // jika login dengan role instruktur
-    if ($role == 1) {
+    if ($role == 4) {
         $queryLogin = mysqli_query($config, "SELECT * FROM instructors WHERE 
     email='$email' AND password='$password'");
-    } elseif ($role == 2) {
+    } elseif ($role == 6) {
 
         $queryLogin = mysqli_query($config, "SELECT * FROM students WHERE 
     email='$email' AND password='$password'");
@@ -34,6 +34,11 @@ if (isset($_POST['email'])) {
         header("location:index.php?login=error");
     }
 }
+
+$queryRoles = mysqli_query($config, "SELECT * FROM roles WHERE name 
+IN ('Instruktur','Students')
+ORDER BY id DESC");
+$rowRoles   = mysqli_fetch_all($queryRoles, MYSQLI_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -123,9 +128,13 @@ if (isset($_POST['email'])) {
                                             <label for="yourRole" class="form-label">Role *</label>
                                             <select name="role" id="yourRole" class="form-control" required>
                                                 <option value="">Pilih Role</option>
-                                                <option value="1">Instruktur</option>
+                                                <?php foreach ($rowRoles as $role): ?>
+                                                    <option value="<?php echo $role['id'] ?>"><?php echo $role['name'] ?></option>
+                                                <?php endforeach ?>
+
+                                                <!-- <option value="1">Instruktur</option>
                                                 <option value="2">Siswa</option>
-                                                <option value="3">Lainnya</option>
+                                                <option value="3">Lainnya</option> -->
                                             </select>
                                             <div class="invalid-feedback">Please select your role!</div>
                                         </div>

@@ -23,15 +23,17 @@ if (isset($_POST['name'])) {
     $phone  = $_POST['phone'];
     $address  = $_POST['address'];
     $gender  = $_POST['gender'];
+    $id_role = 4;
     $password = isset($_POST['password']) ? sha1($_POST['password']) :  $rowEdit['password'];
 
 
     if (!isset($_GET['edit'])) {
-        $insert = mysqli_query($config, "INSERT INTO instructors (name, gender,email, phone, address, password)
-         VALUES('$name','$gender', '$email', '$phone', '$address','$password')");
+        $insert = mysqli_query($config, "INSERT INTO instructors (id_role, name, gender,email, phone, address, password)
+         VALUES('$id_role','$name','$gender', '$email', '$phone', '$address','$password')");
         header("location:?page=instructor&tambah=berhasil");
     } else {
-        $update = mysqli_query($config, "UPDATE instructors SET name='$name', gender='$gender', 
+        $update = mysqli_query($config, "UPDATE instructors SET id_role='$id_role',
+        name='$name', gender='$gender', 
         email='$email',
         password='$password',
         phone='$phone',
